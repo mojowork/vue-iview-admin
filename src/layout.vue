@@ -2,26 +2,21 @@
 <div class="layout" :class="{'layout-hide-text': spanLeft < 5}">
   <Row type="flex">
     <i-col :span="spanLeft" class="layout-menu-left">
-      <Menu active-name="1" theme="dark" width="auto">
+      <Menu theme="dark" width="auto" :active-name="$route.path" accordion @on-select="handleSelect">
         <!-- logo -->
         <div class="layout-logo-left">LITE</div>
         <!-- 导航 -->
-        <div class="layout-nav">
-          <Menu-item name="1">
-            <Icon type="ios-navigate"></Icon>
-            导航一
-          </Menu-item>
-          <Menu-item name="2">
-            <Icon type="ios-keypad"></Icon>
-            导航二
-          </Menu-item>
-          <Menu-item name="3">
-            <Icon type="ios-analytics"></Icon>
-            导航三
-          </Menu-item>
-          <Menu-item name="4">
-            <Icon type="ios-paper"></Icon>
-            导航四
+        <div class="layout-nav" v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
+          <Submenu :name="index" v-if="item.leaf">
+            <template slot="title">
+              <Icon :type="item.icon" :size="iconSize"></Icon>
+              {{item.name}}
+            </template>
+            <Menu-item :name="child.path" v-for="child in item.children" v-if="!child.hidden">{{child.name}}</Menu-item>
+          </Submenu>
+          <Menu-item :name="index" v-else>
+            <Icon type="ios-paper" :size="iconSize"></Icon>
+            <span class="layout-text">文章管理</span>
           </Menu-item>
         </div>
       </Menu>
@@ -67,7 +62,7 @@ export default {
   },
   computed: {
     iconSize() {
-      return this.spanLeft === EXPANDWIDTH ? 14 : 24
+      return this.spanLeft === EXPANDWIDTH ? 14 : 20
     }
   },
   methods: {
@@ -79,6 +74,10 @@ export default {
         this.spanLeft = EXPANDWIDTH
         this.spanRight = 24 - EXPANDWIDTH
       }
+    },
+    handleSelect(path) {
+      console.log(path)
+      this.$router.push({ path: path })
     }
   }
 }
