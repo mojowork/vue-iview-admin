@@ -3,6 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import iView from 'iview'
+import Vuex from 'vuex'
+
+import 'iview/dist/styles/iview.css'
+
+Vue.use(iView)
+Vue.use(Vuex)
 
 Vue.config.productionTip = false
 
