@@ -1,16 +1,18 @@
 <template>
-<div class="layout" :class="{'layout-hide-text': spanLeft < 5}">
+<div class="layout" :class="{'layout-hide-text': collapsed}">
   <Row type="flex">
     <i-col :span="spanLeft" class="layout-menu-left">
       <Menu theme="dark" width="auto" :active-name="$route.path" accordion @on-select="handleSelect">
         <!-- logo -->
-        <div class="layout-logo-left">LITE</div>
+        <div class="layout-logo-left">{{adminName}}</div>
         <!-- 导航 -->
         <div class="layout-nav" v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
           <Submenu :name="index" v-if="item.leaf">
             <template slot="title">
               <Icon :type="item.icon" :size="iconSize"></Icon>
-              {{item.name}}
+              <transition name="fade" mode="out-in">
+                <span class="" v-if="!collapsed">{{item.name}}</span>
+              </transition>
             </template>
             <Menu-item :name="child.path" v-for="child in item.children" v-if="!child.hidden">{{child.name}}</Menu-item>
           </Submenu>
@@ -38,46 +40,49 @@
       <!-- 内容区域 -->
       <div class="layout-content">
         <div class="layout-content-main">
-          内容区域
-          <router-view></router-view>
+          <transition name="fade" mode="out-in">
+            <router-view></router-view>
+          </transition>
         </div>
       </div>
       <!-- 脚注 -->
       <div class="layout-copy">
-        2016-2017 &copy; chaoshuai
+        2017-{{currentYear}} &copy; chaoshuai
       </div>
     </i-col>
   </Row>
 </div>
 </template>
 <script>
-const HIDEWIDTH = 2
+const COLLAPSEDWIDTH = 2
 const EXPANDWIDTH = 5
 export default {
   data() {
     return {
-      spanLeft: EXPANDWIDTH,
-      spanRight: 24 - EXPANDWIDTH
+      adminName: 'LITE',
+      collapsed: false,
+      currentYear: new Date().getFullYear()
     }
   },
   computed: {
     iconSize() {
       return this.spanLeft === EXPANDWIDTH ? 14 : 20
+    },
+    spanLeft() {
+      return this.collapsed ? COLLAPSEDWIDTH : EXPANDWIDTH
+    },
+    spanRight() {
+      return 24 - this.spanLeft
     }
   },
   methods: {
     toggleClick() {
-      if (this.spanLeft === EXPANDWIDTH) {
-        this.spanLeft = HIDEWIDTH
-        this.spanRight = 24 - HIDEWIDTH
-      } else {
-        this.spanLeft = EXPANDWIDTH
-        this.spanRight = 24 - EXPANDWIDTH
-      }
+      this.collapsed = !this.collapsed
     },
     handleSelect(path) {
-      console.log(path)
-      this.$router.push({ path: path })
+      this.$router.push({
+        path
+      })
     }
   }
 }
@@ -147,5 +152,15 @@ export default {
 
 .ivu-col {
   transition: width .2s ease-in-out;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all .2s ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
 }
 </style>

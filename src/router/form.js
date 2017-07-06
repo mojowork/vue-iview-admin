@@ -9,7 +9,7 @@ export default [{
     name: '导航二',
     leaf: true,
     component: Layout,
-    icon: 'ios-paper',
+    icon: 'android-options',
     children: [{
       path: '/form',
       name: '表格',
