@@ -10,15 +10,15 @@
           <Submenu :name="index" v-if="item.leaf">
             <template slot="title">
               <Icon :type="item.icon" :size="iconSize"></Icon>
-              <transition name="fade" mode="out-in">
+              <transition name="nav" mode="out-in">
                 <span class="" v-if="!collapsed">{{item.name}}</span>
               </transition>
             </template>
-            <Menu-item :name="child.path" v-for="child in item.children" v-if="!child.hidden">{{child.name}}</Menu-item>
+            <Menu-item :name="child.path" v-for="child in item.children" v-if="!child.hidden" :key="child.path">{{child.name}}</Menu-item>
           </Submenu>
           <Menu-item :name="index" v-else>
-            <Icon type="ios-paper" :size="iconSize"></Icon>
-            <span class="layout-text">文章管理</span>
+            <Icon :type="item.icon" :size="iconSize"></Icon>
+            <span class="layout-text" v-if="!collapsed">{{item.name}}</span>
           </Menu-item>
         </div>
       </Menu>
@@ -32,9 +32,7 @@
       <!-- 面包屑 -->
       <div class="layout-breadcrumb">
         <Breadcrumb>
-          <Breadcrumb-item href="#">首页</Breadcrumb-item>
-          <Breadcrumb-item href="#">应用中心</Breadcrumb-item>
-          <Breadcrumb-item>某应用</Breadcrumb-item>
+          <Breadcrumb-item v-for="item in $route.matched" :key="item.path">{{item.name}}</Breadcrumb-item>
         </Breadcrumb>
       </div>
       <!-- 内容区域 -->
@@ -59,7 +57,7 @@ const EXPANDWIDTH = 5
 export default {
   data() {
     return {
-      adminName: 'LITE',
+      adminName: 'ADMIN',
       collapsed: false,
       currentYear: new Date().getFullYear()
     }
@@ -80,6 +78,7 @@ export default {
       this.collapsed = !this.collapsed
     },
     handleSelect(path) {
+      console.log(this.$route.matched)
       this.$router.push({
         path
       })

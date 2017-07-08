@@ -1,20 +1,24 @@
-# vue-admin-lite
+# vue-iview-admin
 
-> admin template power by vue and iview
+> admin template powered by vue and iview
 
 ## Build Setup
 
 ``` bash
 # install dependencies
+yarn install
 npm install
 
-# serve with hot reload at localhost:8080
+# serve with hot reload at localhost:8081
+yarn dev
 npm run dev
 
 # build for production with minification
+yarn build
 npm run build
 
 # build for production and view the bundle analyzer report
+yarn build --report
 npm run build --report
 ```
 

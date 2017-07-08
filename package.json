@@ -1,7 +1,7 @@
 {
-  "name": "vue-admin-lite",
-  "version": "1.0.0",
-  "description": "admin template power by vue and iview",
+  "name": "vue-iview-admin",
+  "version": "0.1.0",
+  "description": "admin template powered by vue and iview",
   "author": "chaoshuai <chao.shuai@qq.com>",
   "private": true,
   "scripts": {

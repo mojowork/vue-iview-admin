@@ -1,7 +1,7 @@
 import Layout from '@/layout'
 import form from '@/components/form/form'
 /*
-* hidden,为 `true`,表示不再右侧导航出现
+* hidden,为 `true`,表示不在右侧导航出现
 * leaf， 为 `true`,标识此导航栏有子节点，
 */
 export default [{

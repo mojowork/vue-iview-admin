@@ -4,7 +4,7 @@ import Table from '@/components/table/table'
 export default [{
     path: '/',
     name: '导航一',
-    leaf: true,
+    // leaf: true,
     component: Layout,
     icon: 'ios-paper',
     children: [{
